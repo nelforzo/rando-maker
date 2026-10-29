@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rando Maker</title>
+<style>
+  body { font-family: system-ui, sans-serif; margin: 1rem; max-width: 32rem; }
+  button { font-size: 1.1rem; padding: .8rem 1rem; width: 100%; margin-bottom: .5rem; }
+  pre { background: #eee; padding: 1rem; font-size: 1.2rem; word-break: break-all;
+        user-select: all; cursor: pointer; min-height: 1.2em; margin: 0 0 1.5rem; }
+  h2 { font-size: 1rem; margin: 0 0 .25rem; }
+</style>
+</head>
+<body>
+<h1>Rando Maker</h1>
+
+<button id="nameBtn">New Rando</button>
+<h2>Name</h2>
+<pre id="nameOut" title="Tap to copy"></pre>
+
+<button id="idBtn">New ID</button>
+<h2>ID</h2>
+<pre id="idOut" title="Tap to copy"></pre>
+
+<script>
+const firstNames = [
+  "Lukas", "Matteo", "Sofia", "Emma", "Noah", "Mia", "Liam", "Ana",
+  "Jan", "Elena", "Pierre", "Clara", "Marco", "Giulia", "Finn", "Freya",
+  "Oscar", "Ida", "Hugo", "Léa", "Milan", "Nora", "Tomas", "Zofia",
+  "Ivan", "Katarina", "Anders", "Ingrid", "Pavel", "Maja", "Stefan", "Anja"
+];
+
+const lastNames = [
+  "Müller", "Rossi", "García", "Dubois", "Nowak", "Jansen", "Andersson",
+  "Kowalski", "Petrov", "Nielsen", "Schmidt", "Fernández", "Moreau",
+  "Conti", "Horvat", "Novak", "Larsen", "Virtanen", "O'Sullivan", "Murphy",
+  "Weber", "Lopez", "Martin", "Bernard", "Kovač", "Sørensen", "Lindqvist",
+  "Popescu", "Ivanova", "Dimitrov", "Costa", "Silva"
+];
+
+function pick(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function randomName() {
+  return pick(firstNames) + " " + pick(lastNames);
+}
+
+function randomId() {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const len = Math.floor(Math.random() * 16) + 1;
+  let out = "";
+  for (let i = 0; i < len; i++) out += chars[Math.floor(Math.random() * chars.length)];
+  return out;
+}
+
+async function copyText(el) {
+  const text = el.textContent;
+  if (!text) return;
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch {
+    const range = document.createRange();
+    range.selectNodeContents(el);
+    const sel = getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
+  const old = el.textContent;
+  el.textContent = "Copied!";
+  setTimeout(() => { el.textContent = old; }, 600);
+}
+
+const nameOut = document.getElementById("nameOut");
+const idOut = document.getElementById("idOut");
+
+document.getElementById("nameBtn").onclick = () => { nameOut.textContent = randomName(); };
+document.getElementById("idBtn").onclick = () => { idOut.textContent = randomId(); };
+nameOut.onclick = () => copyText(nameOut);
+idOut.onclick = () => copyText(idOut);
+</script>
+</body>
+</html>
