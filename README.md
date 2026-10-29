@@ -5,8 +5,9 @@ A tiny browser app for generating random names and IDs. No dependencies, no buil
 ## Features
 
 - **New Rando** — generates a random name from a pool of European first and last names.
-- **New ID** — generates a random alphanumeric ID between 1 and 16 characters long.
-- **Tap to copy** — click any generated value to copy it to the clipboard.
+- **New ID** — generates a random 16-character ID using an unambiguous alphabet (no `0`/`O`, `1`/`I`/`L`) for easy reading and transcription.
+- **New Birthdate** — generates a random ISO birthdate for someone between 20 and 50 years old.
+- **Copy buttons** — every output is shown in a monospaced code block with its own copy button; copying never alters the displayed value.
 
 ## Usage
 
